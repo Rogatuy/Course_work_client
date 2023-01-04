@@ -4,7 +4,7 @@ import './loading-screen.scss';
 const LoadingScreen = () => {
   return (
     <div className='wrapper'>
-      <p className="text-secondary">Loading data, please wait or try reloading the page.</p>
+      <p className="text-secondary">Данные загружаются. Пожалуйста, подождите или перезагрузите страницу</p>
       <div className="dualRing border-primary"></div>
     </div>
   );
