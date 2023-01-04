@@ -1,0 +1,45 @@
+.card {
+  border: 3px solid white;
+  width: 100%;
+  opacity: 1;
+}
+
+.container-image {
+  display: block;
+  width: 298px;
+  height: 300px;
+  margin: auto;
+  
+}
+
+@media (min-width: 768px) {
+  .container-image {
+    height: 100%;
+    max-height: 300px;
+  }
+}
+
+.wrapper-image {
+  overflow: hidden;
+  text-align: center;
+}
+
+.preimg {
+  width: auto;
+  height: 100%;
+  margin: auto 0 auto 0;
+  object-fit: cover;
+  
+}
+
+.bg-bad {
+  border: 3px solid rgb(160, 4, 4);
+}
+
+.bg-normal {
+  border: 3px solid rgb(90, 88, 88);
+}
+
+.bg-good {
+  border: 3px solid rgb(30, 97, 3);
+}

@@ -1,0 +1,21 @@
+.full-review__containter {
+  width: 300px;
+  overflow: hidden;
+  margin: auto;
+}
+
+@media (min-width: 768px) {
+  .full-review__containter {
+    margin: 0;
+  }
+}
+
+.form-select {
+  font-family: "Roboto";
+  font-weight: 400;
+}
+
+.full-review__poster {
+  object-fit: contain;
+}
+
