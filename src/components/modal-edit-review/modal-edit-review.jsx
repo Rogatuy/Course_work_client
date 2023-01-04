@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
-import { gradeValues } from '../../const';
 import { correctReview } from '../../redux/features/myReviews/myReviewsSlice';
 import { deleteUrl, uploadImage } from '../../redux/features/uploadImage/uploadImageSlice';
 
-import './modal-edit-review.scss';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import CloseButton from 'react-bootstrap/CloseButton';
 import Spinner from 'react-bootstrap/Spinner';
+
+import { gradeValues, groupHobbies } from '../../const';
+import './modal-edit-review.scss';
 
 const ModalEditReview = ({review}) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState(review.title);
   const [nameOfPiece, setNameOfPiece] = useState(review.nameOfPiece);
+  const [group, setGroup] = useState(review.group);
   const [grade, setGrade] = useState(review.grade);
   const [text, setText] = useState(review.text);
   const [newTag, setNewTag] = useState('');
@@ -28,6 +31,7 @@ const ModalEditReview = ({review}) => {
     setShow(false);
     setTitle(review.title);
     setNameOfPiece(review.nameOfPiece);
+    setGroup(review.group);
     setGrade(review.grade);
     setText(review.text);
     setNewTag('');
@@ -61,9 +65,10 @@ const ModalEditReview = ({review}) => {
   }
 
   const handleEditReview = () => {
-    dispatch(correctReview({name, title, nameOfPiece, tags, text, image: imageUrl, grade, _id: review._id})); 
+    dispatch(correctReview({name, title, nameOfPiece, tags, text, group, image: imageUrl, grade, _id: review._id})); 
     setShow(false);
     setTitle(review.title);
+    setGroup(review.group);
     setNameOfPiece(review.nameOfPiece);
     setGrade(review.grade);
     setText(review.text);
@@ -89,13 +94,40 @@ const ModalEditReview = ({review}) => {
 
       <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
         <div className="border border-dark border-3">
+          <Modal.Header className="text-dark">
+            <CloseButton onClick={handleClose}></CloseButton>
+          </Modal.Header>
           <Modal.Body className="text-dark">
             <Form>
+              <div className="row">
+                <Form.Group className="mb-3 w-2 col">
+                  <Form.Label>Группа</Form.Label>
+                    <Form.Select 
+                    value={group}
+                    onChange={(event) => setGroup(event.target.value)}
+                    >
+                      {Object.keys(groupHobbies).map((element, index) => (
+                        <option key={index} id={element} value={element}>{groupHobbies[element]}</option>
+                      ))}
+                  </Form.Select>      
+                </Form.Group>
+                <Form.Group className="mb-3 w-2 col">
+                  <Form.Label>Оценка</Form.Label>
+                    <Form.Select 
+                    value={grade}
+                    onChange={(event) => setGrade(event.target.value)}
+                    >
+                      {gradeValues.map((element, index) => (
+                        <option key={index}>{element}</option>
+                      ))}
+                    </Form.Select>      
+                </Form.Group>
+              </div>
               <Form.Group className="mb-3 w-2">
                 <Form.Control
                   type="text"
                   autoFocus
-                  placeholder="Название отзыва"
+                  placeholder="Заголовок"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
                 />
@@ -103,24 +135,13 @@ const ModalEditReview = ({review}) => {
               <Form.Group className="mb-3 w-2">
                 <Form.Control
                   type="text"
-                  placeholder="Объект отзыва"
+                  placeholder="Название произведения"
                   value={nameOfPiece}
                   onChange={(event) => setNameOfPiece(event.target.value)}
                 />
               </Form.Group>
               <Form.Group className="mb-3 w-2">
-                <Form.Label>Ваша оценка</Form.Label>
-                  <Form.Select 
-                  value={grade}
-                  onChange={(event) => setGrade(event.target.value)}
-                  >
-                    {gradeValues.map((element, index) => (
-                      <option key={index}>{element}</option>
-                    ))}
-                  </Form.Select>      
-              </Form.Group>
-              <Form.Group className="mb-3 w-2">
-                <Form.Label>Изменить изображение отзыва</Form.Label>
+                <Form.Label>Загрузить новое изображение</Form.Label>
                 <Form.Control
                   type="file"
                   onChange={handleAddImage}
@@ -140,24 +161,6 @@ const ModalEditReview = ({review}) => {
                 )
                 }
               </Form.Group>
-              <Form.Group className="my-3 w-2">
-                <Form.Control
-                  type="text"
-                  value={newTag}
-                  placeholder="Добавить тэг"
-                  onChange={(event) => setNewTag(event.target.value)}
-                />
-                <Button 
-                className="mt-2" 
-                variant="outline-secondary" 
-                onClick={handleAddNewTag}
-                alt="Add tag"
-                title="Добавить тэг">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
-                    <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
-                  </svg>
-                </Button>
-              </Form.Group>
               <Form.Group className="mb-3 w-2">
                 {tags.length !== 0 ? <Form.Label>Актуальные тэги: </Form.Label> : ''}
                 {tags.map((element, i) => (
@@ -169,7 +172,28 @@ const ModalEditReview = ({review}) => {
                   </Button>
                 ))}
               </Form.Group>
-              <Form.Group className="mb-3 w-2">
+              <Form.Group className="my-3 w-2">
+                <div className="container p-0 d-flex">
+                  <Form.Control
+                    type="text"
+                    value={newTag}
+                    placeholder="Добавить тэг"
+                    className="col"
+                    onChange={(event) => setNewTag(event.target.value)}
+                  />
+                  <Button 
+                  className="mx-1 col-1" 
+                  variant="outline-secondary" 
+                  onClick={handleAddNewTag}
+                  alt="Add tag"
+                  title="Добавить тэг">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
+                      <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                  </Button>
+                </div>
+              </Form.Group>
+              <Form.Group className="w-2">
                 <Form.Control
                   as="textarea" 
                   rows={3}
@@ -182,9 +206,6 @@ const ModalEditReview = ({review}) => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="outline-danger" onClick={handleClose}>
-              Закрыть
-            </Button>
             <Button variant="outline-secondary" onClick={handleEditReview} disabled={isImageUpload}>
               Редактировать отзыв
             </Button>

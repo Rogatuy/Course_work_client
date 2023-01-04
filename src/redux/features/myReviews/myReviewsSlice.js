@@ -44,7 +44,7 @@ export const addReview = createAsyncThunk(
 
 export const correctReview = createAsyncThunk(
   'reviews/correctReview',
-  async ({title, name, nameOfPiece, tags, text, image, grade, _id}) => { 
+  async ({title, name, nameOfPiece, tags, text, image, group, grade, _id}) => { 
     try{
       const {data} = await axios.post('/review/correct-review', {
         name,
@@ -54,6 +54,7 @@ export const correctReview = createAsyncThunk(
         text,
         image,
         grade,
+        group,
         _id
       });
 

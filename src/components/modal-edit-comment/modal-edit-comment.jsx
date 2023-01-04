@@ -5,6 +5,7 @@ import { getFullReview, correctComment } from '../../redux/features/fullReview/f
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import CloseButton from 'react-bootstrap/CloseButton';
 
 const ModalEditComment = ({comment}) => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const ModalEditComment = ({comment}) => {
         <div className="border border-dark border-3">
           <Modal.Header className="text-dark">
             <Modal.Title>Редактировать комментарий</Modal.Title>
+            <CloseButton onClick={handleClose}></CloseButton>
           </Modal.Header>
           <Modal.Body className="text-dark">
             <Form>
@@ -62,11 +64,9 @@ const ModalEditComment = ({comment}) => {
             </Form>
           </Modal.Body>
           <Modal.Footer className="text-dark">
-            <Button variant="outline-danger" onClick={handleClose}>
-              Закрыть
-            </Button>
+
             <Button variant="outline-secondary" onClick={handleCorrectComment}>
-              Редактировать
+              Сохранить
             </Button>
           </Modal.Footer>
         </div>

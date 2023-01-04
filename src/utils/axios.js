@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const instance = axios.create({
   baseURL: 'https://courseworkbackend-production.up.railway.app/api'
+  // baseURL: 'http://localhost:3005/api'
 })
 
 instance.interceptors.request.use(config => {

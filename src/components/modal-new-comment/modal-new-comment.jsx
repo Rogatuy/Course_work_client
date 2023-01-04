@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFullReview, addComment } from '../../redux/features/fullReview/fullReviewSlice';
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useDispatch, useSelector } from 'react-redux';
-import { getFullReview, addComment } from '../../redux/features/fullReview/fullReviewSlice';
+import CloseButton from 'react-bootstrap/CloseButton';
 
 const ModalNewComment = () => {
   const dispatch = useDispatch();
@@ -34,6 +36,7 @@ const ModalNewComment = () => {
         <div className="border border-dark border-3">
           <Modal.Header className="text-dark">
             <Modal.Title>Новый комментарий</Modal.Title>
+            <CloseButton onClick={handleClose}></CloseButton>
           </Modal.Header>
           <Modal.Body className="text-dark">
             <Form>
@@ -51,11 +54,8 @@ const ModalNewComment = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer className="text-dark">
-            <Button variant="outline-danger" onClick={handleClose}>
-              Закрыть
-            </Button>
             <Button variant="outline-secondary" onClick={handleAddComment}>
-              Добавить комментарий
+              Добавить
             </Button>
           </Modal.Footer>
         </div>
