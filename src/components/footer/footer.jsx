@@ -6,12 +6,14 @@ import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlic
 import { scrollOnTop } from '../../utils/utils';
 
 import './footer.scss';
+import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
 
 const Footer = () => {
   const dispatch = useDispatch();
 
   const handleOnClick = () => {
     dispatch(changeHobbie(sectionHobbiesValue.All));
+    dispatch(changeTags([]));
     scrollOnTop();
   }
   

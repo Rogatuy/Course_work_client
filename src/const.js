@@ -34,10 +34,16 @@ export const gradeGradation = {
   Good: 10,
 }
 
-export const gradeClassName = {
-  Bad: 'bg-bad',
-  Normal: 'bg-normal',
-  Good: 'bg-good',
+export const gradeClassNameFullReview = {
+  Bad: 'bg-bad-full-review',
+  Normal: 'bg-normal-full-review',
+  Good: 'bg-good-full-review',
+}
+
+export const gradeClassNameCard = {
+  Bad: 'bg-bad-card',
+  Normal: 'bg-normal-card',
+  Good: 'bg-good-card',
 }
 
 export const COMMENTS_STEP = 3;

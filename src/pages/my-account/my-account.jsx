@@ -49,7 +49,7 @@ const MyAccount = () => {
           ))}
           </> ) : (
           <>
-            <h3 className="text-secondary my-3">Вы не оставили ни одного отзыва</h3>
+            <h3 className="text-secondary my-3 text-center">Вы не оставили ни одного отзыва</h3>
           </>
           )}
         </div>

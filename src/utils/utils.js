@@ -1,13 +1,25 @@
-import { gradeGradation, gradeClassName } from "../const";
+import { gradeGradation, gradeClassNameFullReview, gradeClassNameCard } from "../const";
 
-export const getColorReview = (grade) => {
+export const getColorFullReview = (grade) => {
   if (grade <= gradeGradation.Bad) {
-    return gradeClassName.Bad;
+    return gradeClassNameFullReview.Bad;
   } else {
     if (grade <= gradeGradation.Normal) {
-      return gradeClassName.Normal;
+      return gradeClassNameFullReview.Normal;
     } else {
-      return gradeClassName.Good;
+      return gradeClassNameFullReview.Good;
+    }
+  }
+}
+
+export const getColorCard = (grade) => {
+  if (grade <= gradeGradation.Bad) {
+    return gradeClassNameCard.Bad;
+  } else {
+    if (grade <= gradeGradation.Normal) {
+      return gradeClassNameCard.Normal;
+    } else {
+      return gradeClassNameCard.Good;
     }
   }
 }
@@ -27,5 +39,31 @@ export const getAllLikes = (data, name) => {
   }, 0);
 
   return totalLikes;
+}
+
+export const getTagsSet = (data) => {
+  let tags = [];
+  data.forEach((element) => {
+    element.tags.forEach((tag) => {
+      tags.push(tag);
+    })    
+  })
+  
+  return Array.from(new Set(tags));
+}
+
+export const getFilterTagReviews = (tags, reviews) => {
+  if (tags.length === 0) {return reviews};
+  const filteredReviews = reviews.filter((element) => {
+    let itContains = true;
+    tags.forEach((tag) => {
+      if (element.tags.indexOf(tag) < 0) {
+        itContains = false;
+      }
+    });
+    return itContains;
+  })
+
+  return filteredReviews;
 }
 

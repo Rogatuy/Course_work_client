@@ -12,7 +12,7 @@ import { Button } from 'react-bootstrap';
 import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
 import { addLike, addRating, getFullReview } from '../../redux/features/fullReview/fullReviewSlice';
 
-import { getColorReview, scrollOnTop, getAllLikes } from '../../utils/utils';
+import { getColorFullReview, scrollOnTop, getAllLikes } from '../../utils/utils';
 import { COMMENTS_STEP, ratingUserValues } from '../../const';
 import classNames from 'classnames';
 
@@ -130,7 +130,7 @@ const FullReview = () => {
           }
         </div>        
         <div className="col-11 col-lg-6 row px-0">
-          <div className={`${getColorReview(review.grade)} d-flex flex-column px-0 mx-0 mx-lg-2`}>
+          <div className={`${getColorFullReview(review.grade)} d-flex flex-column px-0 mx-0 mx-lg-2`}>
             <div className="d-flex flex align-items-center justify-content-between">
               <h3 className="p-2 m-0">{review.title}</h3>
               <div className="mx-1 col-3 d-flex justify-content-end">
@@ -146,7 +146,7 @@ const FullReview = () => {
                 {likesAuthor > 0 &&
                 <p className="p-2 my-0">
                   {likesAuthor}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-heart-fill" viewBox="0 0 16 16">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" className="bi bi-heart-fill" viewBox="0 0 16 16">
                       <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
                   </svg>
                 </p>
@@ -161,7 +161,7 @@ const FullReview = () => {
           {review.comments.length !== 0 &&
           <div className="mx-0 mx-lg-2 mt-2 px-0">
             <h4 className="p-2 m-0">Комментарии</h4>
-            <div className={`${getColorReview(review.grade)} comment d-flex flex-column p-0`}>
+            <div className={`${getColorFullReview(review.grade)} comment d-flex flex-column p-0`}>
               {review.comments.slice(0, commentsCount).map((comment) => (
                 <Comment
                 key={comment._id}
@@ -179,7 +179,7 @@ const FullReview = () => {
             <button className="btn btn-secondary col-4 col-md-5 col-lg-4" onClick={handleMoreComment}>Показать еще...</button>
             }
             {review.comments.length > COMMENTS_STEP &&
-            <button className="btn btn-secondary col-2 col-sm-1 m-0 p-0" onClick={scrollOnTop}>
+            <button className="btn btn-secondary col-2 col-sm-1 m-0 p-0" onClick={scrollOnTop} alt="Наверх" title="К верху страницы">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up" viewBox="0 0 16 16">
                 <path fillRule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"></path>
               </svg>

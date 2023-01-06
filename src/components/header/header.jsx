@@ -7,6 +7,7 @@ import { checkIsAuth, logOut } from '../../redux/features/auth/authSlice';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
 import './header.scss';
+import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,10 @@ const Header = () => {
         <Link 
           className="navbar-brand d-inline-flex align-items-center p-0 me-0 me-lg-2 text-uppercase" 
           to={AppRoute.Main}
-          onClick={() => dispatch(changeHobbie(sectionHobbiesValue.All))}
+          onClick={() => {
+            dispatch(changeHobbie(sectionHobbiesValue.All));
+            dispatch(changeTags([]));
+          }}
           >
           <svg className="d-block me-2 bi bi-star-half" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
             <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z"/>
@@ -40,7 +44,10 @@ const Header = () => {
                   className={classNames('nav-link', {'active': (hobbie === sectionHobbiesValue.Games)})}
                   aria-current="page" 
                   to={AppRoute.Main} 
-                  onClick={() => dispatch(changeHobbie(sectionHobbiesValue.Games))}
+                  onClick={() => {
+                    dispatch(changeHobbie(sectionHobbiesValue.Games));
+                    dispatch(changeTags([]));
+                  }}
                   alt={sectionHobbiesValue.Games}
                   title={groupHobbies[sectionHobbiesValue.Games]}
                 >
@@ -55,7 +62,10 @@ const Header = () => {
                   className={classNames('nav-link', {'active': (hobbie === sectionHobbiesValue.Films)})}
                   aria-current="page" 
                   to={AppRoute.Main} 
-                  onClick={() => dispatch(changeHobbie(sectionHobbiesValue.Films))}
+                  onClick={() => {
+                    dispatch(changeHobbie(sectionHobbiesValue.Films));
+                    dispatch(changeTags([]));
+                  }}
                   alt={sectionHobbiesValue.Films}
                   title={groupHobbies[sectionHobbiesValue.Films]}
                 >
@@ -71,7 +81,10 @@ const Header = () => {
                   className={classNames('nav-link', {'active': (hobbie === sectionHobbiesValue.Books)})}
                   aria-current="page" 
                   to={AppRoute.Main} 
-                  onClick={() => dispatch(changeHobbie(sectionHobbiesValue.Books))}
+                  onClick={() => {
+                    dispatch(changeHobbie(sectionHobbiesValue.Books));
+                    dispatch(changeTags([]));
+                  }}
                   alt={sectionHobbiesValue.Books}
                   title={groupHobbies[sectionHobbiesValue.Books]}
                 >

@@ -2,6 +2,7 @@
   border: 3px solid white;
   width: 100%;
   opacity: 1;
+  transition: .3s;
 }
 
 .container-image {
@@ -32,14 +33,26 @@
   
 }
 
-.bg-bad {
-  border: 3px solid rgb(160, 4, 4);
+.bg-bad-card {
+  border: 1px solid rgb(160, 4, 4);
 }
 
-.bg-normal {
-  border: 3px solid rgb(90, 88, 88);
+.bg-bad-card:hover {
+  box-shadow: 0px 0px 17px 8px rgba(160, 4, 4, 0.2);
 }
 
-.bg-good {
-  border: 3px solid rgb(30, 97, 3);
+.bg-normal-card {
+  border: 1px solid rgb(90, 88, 88);
+}
+
+.bg-normal-card:hover {
+  box-shadow: 0px 0px 17px 8px rgba(90, 88, 88, 0.2);
+}
+
+.bg-good-card {
+  border: 1px solid rgb(30, 97, 3);
+}
+
+.bg-good-card:hover {
+  box-shadow: 0px 0px 17px 8px rgba(30, 97, 3, 0.2);
 }
