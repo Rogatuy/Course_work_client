@@ -1,4 +1,4 @@
-import { maxRatingStars } from "../../const";
+import { MAX_RATING_STARS } from "../../const";
 
 const RatingStars = ({allRating}) => {
   const initialValue = 0;
@@ -9,7 +9,7 @@ const RatingStars = ({allRating}) => {
   for (let i = 0; i < averageRating; i++) {
     starsFill.push(i);
   }
-  for (let i = 0; i < maxRatingStars-starsFill.length; i++) {
+  for (let i = 0; i < MAX_RATING_STARS-starsFill.length; i++) {
     starsEmpty.push(i);
   }
 

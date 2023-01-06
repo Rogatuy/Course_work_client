@@ -52,4 +52,4 @@ export const gradeValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const ratingUserValues = [1, 2, 3, 4, 5];
 
-export const maxRatingStars = 5;
+export const MAX_RATING_STARS = 5;

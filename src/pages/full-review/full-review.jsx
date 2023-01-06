@@ -129,7 +129,7 @@ const FullReview = () => {
           </Form>
           }
         </div>        
-        <div className="col-11 col-lg-6 row px-0">
+        <div className="col-11 col-lg-6 row px-0 d-flex flex-column">
           <div className={`${getColorFullReview(review.grade)} d-flex flex-column px-0 mx-0 mx-lg-2`}>
             <div className="d-flex flex align-items-center justify-content-between">
               <h3 className="p-2 m-0">{review.title}</h3>

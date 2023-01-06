@@ -4,14 +4,15 @@ import { Link } from 'react-router-dom';
 
 import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlice';
 import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
+import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
 
 import Card from '../../components/card/card';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { sectionHobbiesValue, AppRoute } from '../../const';
+import { sectionHobbiesValue, AppRoute} from '../../const';
 import { getFilterTagReviews, getTagsSet } from '../../utils/utils';
 
+import './main-page.scss';
 import classNames from 'classnames';
-import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
 
 const MainPage = () => {
   const currentHobbie = useSelector(state => state.activeHobbie.selectedHobbie);
