@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AppRoute, sectionHobbiesValue } from '../../const';
+import { AppRoute, FIRST_STEP_PAGINATION, sectionHobbiesValue } from '../../const';
 import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlice';
 import { scrollOnTop } from '../../utils/utils';
 
 import './footer.scss';
 import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
+import { changePaginationMain } from '../../redux/features/pagination/paginationSlice';
 
 const Footer = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const Footer = () => {
     dispatch(changeHobbie(sectionHobbiesValue.All));
     dispatch(changeTags([]));
     scrollOnTop();
+    dispatch(changePaginationMain(FIRST_STEP_PAGINATION));
   }
   
   return (

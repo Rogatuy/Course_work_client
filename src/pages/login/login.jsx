@@ -43,6 +43,13 @@ const Login = () => {
     }
   }
 
+  const handleChangeTab = (k) => {
+    setTabKey(k);
+    setName('');
+    setEmail('');
+    setPassword('');
+  }
+
   return (
       <div className='Auth-form-container container-xl'>
         <div className='row justify-content-center'>
@@ -50,7 +57,7 @@ const Login = () => {
             <Tabs 
             id="tabs-controlled"
             activeKey={tabKey}
-            onSelect={(k) => setTabKey(k)}
+            onSelect={(k) => handleChangeTab(k)}
             className="nav nav-tabs my-4 "
             justify
             >

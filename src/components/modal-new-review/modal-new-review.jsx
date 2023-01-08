@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addReview } from '../../redux/features/myReviews/myReviewsSlice';
 import { deleteUrl, uploadImage } from '../../redux/features/uploadImage/uploadImageSlice';
@@ -9,17 +9,25 @@ import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Spinner from 'react-bootstrap/Spinner';
 
-import { gradeValues, groupHobbies, sectionHobbiesValue } from '../../const';
+import { formValidate, gradeValues, groupHobbies, sectionHobbiesValue } from '../../const';
 
 const ModalNewReview = () => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState('');
-  const [group, setGroup] = useState(sectionHobbiesValue.Games);
+  const [titleDirty, setTitleDirty] = useState(false);
+  const [titleError, setTitleError] = useState('Заголовок не может быть пустым');
+  const [group, setGroup] = useState(sectionHobbiesValue.Books);
   const [nameOfPiece, setNameOfPiece] = useState('');
+  const [nameOfPieceDirty, setNameOfPieceDirty] = useState(false);
+  const [nameOfPieceError, setNameOfPieceError] = useState('Название произведения не может быть пустым');
   const [grade, setGrade] = useState(gradeValues[0]);
   const [text, setText] = useState('');
+  const [textDirty, setTextDirty] = useState(false);
+  const [textError, setTextError] = useState('Содержание отзыва не может быть пустым');
+  const [formValid, setFormValid] = useState(false);
+  
   const [newTag, setNewTag] = useState('');
   const [tags, setTags] = useState([]);
   const [imageUrl, setImageUrl] = useState('');
@@ -31,6 +39,74 @@ const ModalNewReview = () => {
     setShow(true);
   }
 
+  const blurHandler = (event) => {
+    switch(event.target.name) {
+      case `${formValidate.title}`:
+        setTitleDirty(true);
+        break;
+      case `${formValidate.nameOfPiece}`:
+        setNameOfPieceDirty(true);
+        break;
+      case `${formValidate.text}`:
+        setTextDirty(true);
+        break;
+      default:
+        break;
+    }
+  }
+
+  const titleHandler = (event) => {
+    setTitle(event.target.value);
+    const re = /[^\s]/;
+    const inputText = String(event.target.value);
+    if (!event.target.value || !re.test(inputText)) {
+        setTitleError('Заголовок не может быть пустым')
+      } else {
+        if (event.target.value.length < 5) {
+          setTitleError('Не менее 5 символов в поле')
+      } else {
+        setTitleError('');
+      }
+    }
+  }
+
+  const nameOfPieceHandler = (event) => {
+    setNameOfPiece(event.target.value);
+    const re = /[^\s]/;
+    const inputText = String(event.target.value);
+    if (!event.target.value || !re.test(inputText)) {
+      setNameOfPieceError('Название произведения не может быть пустым')
+      } else {
+        if (event.target.value.length < 1) {
+          setNameOfPieceError('Не менее 1 символа в поле')
+      } else {
+        setNameOfPieceError('');
+      }
+    }
+  }
+
+  const textHandler = (event) => {
+    setText(event.target.value);
+    const re = /[^\s]/;
+    const inputText = String(event.target.value);
+    if (!event.target.value || !re.test(inputText)) {
+      setTextError('Содержание отзыва не может быть пустым')
+      } else {
+        if (event.target.value.length < 10) {
+          setTextError('Не менее 10 символов в поле');
+      } else {
+        setTextError('');
+      }
+    }
+  }
+
+  useEffect(() => {
+    if(titleError || nameOfPieceError || textError || isImageUpload) {
+      setFormValid(false)} else {
+        setFormValid(true);
+      }
+  }, [isImageUpload, nameOfPieceError, textError, titleError]);
+
   const handleClose = () => {
     setShow(false);
     setTitle('');
@@ -41,6 +117,13 @@ const ModalNewReview = () => {
     setImageUrl('');
     setNewTag('');
     setTags([]);
+    setTitleDirty(false);
+    setNameOfPieceDirty(false);
+    setTextDirty(false);
+    setFormValid(false);
+    setTitleError('Заголовок не может быть пустым');
+    setNameOfPieceError('Название произведения не может быть пустым');
+    setTextError('Содержание отзыва не может быть пустым');
     dispatch(deleteUrl());
   }
 
@@ -118,20 +201,25 @@ const ModalNewReview = () => {
                 </Form.Group>
               </div>
               <Form.Group className="mb-3 w-2">
+              {(titleDirty && titleError) && <div className="mb-1 mx-2 text-danger">{titleError}</div>}
                 <Form.Control
                   type="text"
                   placeholder="Заголовок"
-                  autoFocus
+                  name="titleReview"
                   value={title}
-                  onChange={(event) => setTitle(event.target.value)}
+                  onChange={(event) => titleHandler(event)}
+                  onBlur = {(event) => blurHandler(event)}
                 />
               </Form.Group>
               <Form.Group className="mb-3 w-2">
+                {(nameOfPieceDirty && nameOfPieceError) && <div className="mb-1 mx-2 text-danger">{nameOfPieceError}</div>}
                 <Form.Control
                   type="text"
                   placeholder="Название произведения"
+                  name="nameOfPieceReview"
                   value={nameOfPiece}
-                  onChange={(event) => setNameOfPiece(event.target.value)}
+                  onBlur = {(event) => blurHandler(event)}
+                  onChange={(event) => nameOfPieceHandler(event)}
                 />
               </Form.Group>
               <Form.Group className="mb-3 w-2">
@@ -190,19 +278,22 @@ const ModalNewReview = () => {
                 </div>
               </Form.Group>
               <Form.Group className="w-2">
+              {(textDirty && textError) && <div className="mb-1 mx-2 text-danger">{textError}</div>}
                 <Form.Control
                   as="textarea" 
                   rows={3}
                   placeholder="Текст отзыва"
                   type="text"
+                  name="textReview"
                   value={text}
-                  onChange={(event) => setText(event.target.value)}
+                  onBlur = {(event) => blurHandler(event)}
+                  onChange={(event) => textHandler(event)}
                 />
               </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer className="">
-            <Button variant="outline-secondary" onClick={handleAddReview} disabled={isImageUpload}>
+            <Button variant="outline-secondary" onClick={handleAddReview} disabled={!formValid}>
               Опубликовать
             </Button>
           </Modal.Footer>

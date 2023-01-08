@@ -145,8 +145,7 @@ const FullReview = () => {
                 <p className="p-2 m-0">Автор: {review.name}</p>
                 {likesAuthor > 0 &&
                 <p className="p-2 my-0">
-                  {likesAuthor}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" className="bi bi-heart-fill" viewBox="0 0 16 16">
+                  {likesAuthor} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" className="bi bi-heart-fill" viewBox="0 0 16 16">
                       <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
                   </svg>
                 </p>

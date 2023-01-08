@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -8,16 +8,20 @@ import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
 
 import Card from '../../components/card/card';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { sectionHobbiesValue, AppRoute} from '../../const';
-import { getFilterTagReviews, getTagsSet } from '../../utils/utils';
+import { sectionHobbiesValue, AppRoute, REVIEWS_PER_PAGE, FIRST_STEP_PAGINATION} from '../../const';
+import { getFilterTagReviews, getTagsSet, scrollOnTop } from '../../utils/utils';
 
 import './main-page.scss';
 import classNames from 'classnames';
+import Pagination from '../../components/pagination/pagination';
+import { changePaginationMain } from '../../redux/features/pagination/paginationSlice';
 
 const MainPage = () => {
   const currentHobbie = useSelector(state => state.activeHobbie.selectedHobbie);
   const allReviews = useSelector(state => state.allReviews.allReviews);
   const isReviewsLoading = useSelector(state => state.allReviews.isLoading);
+  const currentPagination = useSelector(state => state.pagination.paginationMain);
+  const [pagination, setPagination] = useState(currentPagination);
   const tagsFilter = useSelector(state => state.tagsFilter.activeTags);
   const dispatch = useDispatch();
   
@@ -29,7 +33,13 @@ const MainPage = () => {
     dispatch(changeHobbie(currentHobbie));
   }, [currentHobbie, dispatch])
 
+  useEffect(() => {
+    dispatch(changePaginationMain(pagination))
+  }, [dispatch, pagination])
+
   const handleTagClick = (nameTag) => {
+    setPagination(FIRST_STEP_PAGINATION);
+    dispatch(changePaginationMain(FIRST_STEP_PAGINATION));
     if (tagsFilter.includes(nameTag)) {
       const tags = tagsFilter.filter((element) => element !== nameTag);
       dispatch(changeTags(tags));
@@ -49,7 +59,16 @@ const MainPage = () => {
   const allTegs = getTagsSet(data);
 
   data = getFilterTagReviews(tagsFilter, data);
-    
+  
+  const lastReviewsIndex = currentPagination * REVIEWS_PER_PAGE;
+  const firstReviewIndex = lastReviewsIndex - REVIEWS_PER_PAGE;
+  const currentReviews = data.slice(firstReviewIndex, lastReviewsIndex);
+
+  const getPagination = (element) => {
+    setPagination(element);
+    scrollOnTop();
+  }
+
   if (isReviewsLoading) {
     return <LoadingScreen />;
   }
@@ -107,13 +126,20 @@ const MainPage = () => {
         </div>
         <div className='row d-flex flex-wrap flex-md-column justify-content-center gap-4'>
           <div className='col'>
-          {data.map((review) => (
+          {currentReviews.map((review) => (
             <Card
             key={review._id}
             review={review}
             />
           ))}
           </div>
+            {data.length > REVIEWS_PER_PAGE &&
+            <Pagination
+            reviews={data}
+            getPagination={getPagination}
+            activeButton={currentPagination}
+            />
+          }
         </div>
       </div>
    );

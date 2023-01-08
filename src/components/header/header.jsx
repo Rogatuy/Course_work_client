@@ -1,13 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link} from 'react-router-dom';
-import { AppRoute, sectionHobbiesValue, groupHobbies } from '../../const';
+import { AppRoute, sectionHobbiesValue, groupHobbies, FIRST_STEP_PAGINATION } from '../../const';
 import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlice';
 import { checkIsAuth, logOut } from '../../redux/features/auth/authSlice';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
 import './header.scss';
 import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
+import { changePaginationMain } from '../../redux/features/pagination/paginationSlice';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Header = () => {
           onClick={() => {
             dispatch(changeHobbie(sectionHobbiesValue.All));
             dispatch(changeTags([]));
+            dispatch(changePaginationMain(FIRST_STEP_PAGINATION));
           }}
           >
           <svg className="d-block me-2 bi bi-star-half" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">

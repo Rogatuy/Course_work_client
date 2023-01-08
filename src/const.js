@@ -46,6 +46,12 @@ export const gradeClassNameCard = {
   Good: 'bg-good-card',
 }
 
+export const formValidate = {
+  title: 'titleReview',
+  nameOfPiece: 'nameOfPieceReview',
+  text: 'textReview'
+}
+
 export const COMMENTS_STEP = 3;
 
 export const gradeValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -53,3 +59,7 @@ export const gradeValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 export const ratingUserValues = [1, 2, 3, 4, 5];
 
 export const MAX_RATING_STARS = 5;
+
+export const REVIEWS_PER_PAGE = 3;
+
+export const FIRST_STEP_PAGINATION = 1;

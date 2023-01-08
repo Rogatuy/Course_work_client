@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { correctReview } from '../../redux/features/myReviews/myReviewsSlice';
 import { deleteUrl, uploadImage } from '../../redux/features/uploadImage/uploadImageSlice';
@@ -9,17 +9,24 @@ import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Spinner from 'react-bootstrap/Spinner';
 
-import { gradeValues, groupHobbies } from '../../const';
+import { formValidate, gradeValues, groupHobbies } from '../../const';
 import './modal-edit-review.scss';
 
 const ModalEditReview = ({review}) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState(review.title);
+  const [titleDirty, setTitleDirty] = useState(false);
+  const [titleError, setTitleError] = useState('');
   const [nameOfPiece, setNameOfPiece] = useState(review.nameOfPiece);
+  const [nameOfPieceDirty, setNameOfPieceDirty] = useState(false);
+  const [nameOfPieceError, setNameOfPieceError] = useState('');
   const [group, setGroup] = useState(review.group);
   const [grade, setGrade] = useState(review.grade);
   const [text, setText] = useState(review.text);
+  const [textDirty, setTextDirty] = useState(false);
+  const [textError, setTextError] = useState('');
+  const [formValid, setFormValid] = useState(false);
   const [newTag, setNewTag] = useState('');
   const [tags, setTags] = useState(review.tags);
   const [imageUrl, setImageUrl] = useState(review.image);
@@ -37,12 +44,87 @@ const ModalEditReview = ({review}) => {
     setNewTag('');
     setTags(review.tags);
     setImageUrl(review.image);
+    setTitleDirty(false);
+    setNameOfPieceDirty(false);
+    setTextDirty(false);
+    setFormValid(true);
+    setTitleError('');
+    setNameOfPieceError('');
+    setTextError('');
     dispatch(deleteUrl());
   }
 
   const handleShow = () => {
     setShow(true);
   }
+
+  const blurHandler = (event) => {
+    switch(event.target.name) {
+      case `${formValidate.title}`:
+        setTitleDirty(true);
+        break;
+      case `${formValidate.nameOfPiece}`:
+        setNameOfPieceDirty(true);
+        break;
+      case `${formValidate.text}`:
+        setTextDirty(true);
+        break;
+      default:
+        break;
+    }
+  }
+
+  const titleHandler = (event) => {
+    setTitle(event.target.value);
+    const re = /[^\s]/;
+    const inputText = String(event.target.value);
+    if (!event.target.value || !re.test(inputText)) {
+        setTitleError('Заголовок не может быть пустым')
+      } else {
+        if (event.target.value.length < 5) {
+          setTitleError('Не менее 5 символов в поле')
+      } else {
+        setTitleError('');
+      }
+    }
+  }
+
+  const nameOfPieceHandler = (event) => {
+    setNameOfPiece(event.target.value);
+    const re = /[^\s]/;
+    const inputText = String(event.target.value);
+    if (!event.target.value || !re.test(inputText)) {
+      setNameOfPieceError('Название произведения не может быть пустым')
+      } else {
+        if (event.target.value.length < 1) {
+          setNameOfPieceError('Не менее 1 символа в поле')
+      } else {
+        setNameOfPieceError('');
+      }
+    }
+  }
+
+  const textHandler = (event) => {
+    setText(event.target.value);
+    const re = /[^\s]/;
+    const inputText = String(event.target.value);
+    if (!event.target.value || !re.test(inputText)) {
+      setTextError('Содержание отзыва не может быть пустым')
+      } else {
+        if (event.target.value.length < 10) {
+          setTextError('Не менее 10 символов в поле');
+      } else {
+        setTextError('');
+      }
+    }
+  }
+
+  useEffect(() => {
+    if(titleError || nameOfPieceError || textError || isImageUpload) {
+      setFormValid(false)} else {
+        setFormValid(true);
+      }
+  }, [isImageUpload, nameOfPieceError, textError, titleError]);
 
   const handleAddNewTag = () => {
     if (newTag.length !== 0) {
@@ -124,20 +206,26 @@ const ModalEditReview = ({review}) => {
                 </Form.Group>
               </div>
               <Form.Group className="mb-3 w-2">
+                {(titleDirty && titleError) && <div className="mb-1 mx-2 text-danger">{titleError}</div>}
                 <Form.Control
                   type="text"
                   autoFocus
                   placeholder="Заголовок"
+                  name="titleReview"
                   value={title}
-                  onChange={(event) => setTitle(event.target.value)}
+                  onChange={(event) => titleHandler(event)}
+                  onBlur = {(event) => blurHandler(event)}
                 />
               </Form.Group>
               <Form.Group className="mb-3 w-2">
+                {(nameOfPieceDirty && nameOfPieceError) && <div className="mb-1 mx-2 text-danger">{nameOfPieceError}</div>}
                 <Form.Control
                   type="text"
                   placeholder="Название произведения"
+                  name="nameOfPieceReview"
                   value={nameOfPiece}
-                  onChange={(event) => setNameOfPiece(event.target.value)}
+                  onBlur = {(event) => blurHandler(event)}
+                  onChange={(event) => nameOfPieceHandler(event)}
                 />
               </Form.Group>
               <Form.Group className="mb-3 w-2">
@@ -194,19 +282,22 @@ const ModalEditReview = ({review}) => {
                 </div>
               </Form.Group>
               <Form.Group className="w-2">
+                {(textDirty && textError) && <div className="mb-1 mx-2 text-danger">{textError}</div>}
                 <Form.Control
                   as="textarea" 
                   rows={3}
                   type="text"
                   placeholder="Текст отзыва"
+                  name="textReview"
                   value={text}
-                  onChange={(event) => setText(event.target.value)}
+                  onBlur = {(event) => blurHandler(event)}
+                  onChange={(event) => textHandler(event)}
                 />
               </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="outline-secondary" onClick={handleEditReview} disabled={isImageUpload}>
+            <Button variant="outline-secondary" onClick={handleEditReview} disabled={!formValid}>
               Редактировать отзыв
             </Button>
           </Modal.Footer>

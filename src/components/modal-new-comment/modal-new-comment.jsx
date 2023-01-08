@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFullReview, addComment } from '../../redux/features/fullReview/fullReviewSlice';
 
@@ -14,9 +14,48 @@ const ModalNewComment = () => {
   const name = useSelector((state) => state.auth.name);
   const [show, setShow] = useState(false);
   const [textComment, setTextComment] = useState('');
+  const [textCommentDirty, setTextCommentDirty] = useState(false);
+  const [textCommentError, setTextCommentError] = useState('Комментарий не может быть пустым');
+  const [formValid, setFormValid] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setTextComment('');
+    setTextCommentDirty(false);
+    setFormValid(false);
+    setTextCommentError('Комментарий не может быть пустым');
+  }
+
   const handleShow = () => setShow(true);
+
+  const blurHandler = (event) => {
+    if (event.target.name === 'textComment') {
+      setTextCommentDirty(true);
+    }
+  }
+
+  const textCommentHandler = (event) => {
+    setTextComment(event.target.value);
+    const re = /[^\s]/;
+    const inputText = String(event.target.value);
+    if (!event.target.value || !re.test(inputText)) {
+      setTextCommentError('Комментарий не может быть пустым')
+      } else {
+        if (event.target.value.length < 3) {
+          setTextCommentError('Не менее 3 символов в поле')
+      } else {
+        setTextCommentError('');
+      }
+    }
+  }
+
+  useEffect(() => {
+    if(textCommentError) {
+      setFormValid(false)} else {
+        setFormValid(true);
+      }
+  }, [textCommentError]);
+
 
   const handleAddComment = () => {
     const text = textComment;
@@ -40,21 +79,23 @@ const ModalNewComment = () => {
           </Modal.Header>
           <Modal.Body className="text-dark">
             <Form>
-              <Form.Group className="mb-3 w-2" controlId="modalCommentForm.ControlInput1">
+              <Form.Group className="mb-3 w-2">
+              {(textCommentDirty && textCommentError) && <div className="mb-2 mx-2 text-danger">{textCommentError}</div>}
                 <Form.Control
                   type="text"
                   placeholder="Оставьте здесь комментарий"
+                  name="textComment"
                   autoFocus
                   className="text-dark"
                   value={textComment}
-                  onChange={(event) => setTextComment(event.target.value)}
-
+                  onBlur={(event) => blurHandler(event)}
+                  onChange={(event) => textCommentHandler(event)}
                 />
               </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer className="text-dark">
-            <Button variant="outline-secondary" onClick={handleAddComment}>
+            <Button variant="outline-secondary" onClick={handleAddComment} disabled={!formValid}>
               Добавить
             </Button>
           </Modal.Footer>
