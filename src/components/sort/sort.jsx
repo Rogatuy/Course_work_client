@@ -39,8 +39,8 @@ const Sort = () => {
   };
 
   return (
-    <div className="container d-flex flex-row px-0 flex-wrap mt-3 justify-content-between">
-      <div className="d-flex flex-column flex-sm-row justify-content-start">
+    <div className="container d-flex flex-row px-0 flex-wrap mt-3 justify-content-end">
+      <div className="d-flex flex-row justify-content-start">
         <div className="my-1 me-2 text-start">
           <button
           className={`btn btn-sm ${sortType === sortTypeSettings.rating ? 'btn-secondary button-sort-active' : 'btn-outline-secondary'}`} 

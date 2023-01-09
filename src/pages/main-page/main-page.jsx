@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlice';
 import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
 import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
+import { changePaginationMain } from '../../redux/features/pagination/paginationSlice';
 
 import Card from '../../components/card/card';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { sectionHobbiesValue, AppRoute, REVIEWS_PER_PAGE, FIRST_STEP_PAGINATION} from '../../const';
-import { getFilterTagReviews, getSortReviews, getTagsSet, scrollOnTop } from '../../utils/utils';
-
-import classNames from 'classnames';
 import Pagination from '../../components/pagination/pagination';
-import { changePaginationMain } from '../../redux/features/pagination/paginationSlice';
 import Sort from '../../components/sort/sort';
+import { getFilterTagReviews, getSortReviews, getTagsSet, scrollOnTop } from '../../utils/utils';
+import { sectionHobbiesValue, AppRoute, REVIEWS_PER_PAGE, FIRST_STEP_PAGINATION} from '../../const';
+
+import './main.scss';
+
 
 const MainPage = () => {
   const currentHobbie = useSelector(state => state.activeHobbie.selectedHobbie);
@@ -79,34 +81,39 @@ const MainPage = () => {
 
   if (filterWithTagReviews.length === 0) {
     return (
-    <div className="container mx-auto d-flex flex-column justify-content-center">
+    <div className='container'>
+      {tagsFilter.length !== 0 &&
         <div className="container d-flex flex-row px-0 flex-wrap mt-3 justify-content-start">
           {allTegs.map((tag, index) => (
             <div 
-            className="my-1 mx-2 text-start"
+            className="my-1 mx-2 text-start text-secondary"
               key={index}
             >
               <button
-              className={classNames('btn', 'btn-sm', {'btn-outline-secondary': (!tagsFilter.includes(tag))}, {'btn-secondary': (tagsFilter.includes(tag))})} 
-              value={tag}
-              onClick={(event) => handleTagClick(event.target.value)}              
-              >{tag}
+                href="#"
+                className={classNames('btn', 'btn-sm', 'fst-italic', {'button-tags': (!tagsFilter.includes(tag))}, {'button-tags-active': (tagsFilter.includes(tag))})} 
+                value={tag}
+                onClick={(event) => handleTagClick(event.target.value)}              
+                >{tag}
               </button>
             </div>
           ))}
         </div>
-      <h4 className="col-9 text-center text-dark mx-auto mt-5">{tagsFilter.length === 0 ? `Пока что в этом разделе нет отзывов` : `Нет отзыва с таким сочетанием тегов`}</h4>
-      <Link 
-      type="button" 
-      className="btn btn-secondary col mt-3 mx-auto text-center"
-      to={AppRoute.Main}
-      onClick={() => {
-        dispatch(changeHobbie(sectionHobbiesValue.All));
-        dispatch(changeTags([]));
-      }}
-      >
-        На главную
-      </Link>
+      }
+      <div className="d-flex flex-column justify-content-center">
+        <h4 className="col-9 text-center text-dark mx-auto mt-5">{tagsFilter.length === 0 ? `Пока что в этом разделе нет отзывов` : `Нет отзыва с таким сочетанием тегов`}</h4>
+        <Link 
+        type="button" 
+        className="btn btn-secondary col mt-3 mx-auto text-center"
+        to={AppRoute.Main}
+        onClick={() => {
+          dispatch(changeHobbie(sectionHobbiesValue.All));
+          dispatch(changeTags([]));
+        }}
+        >
+          На главную
+        </Link>
+      </div>
     </div>
     )
   }
@@ -120,7 +127,7 @@ const MainPage = () => {
               key={index}
             >
               <button
-              className={classNames('btn', 'btn-sm', {'btn-outline-secondary': (!tagsFilter.includes(tag))}, {'btn-secondary': (tagsFilter.includes(tag))})} 
+              className={classNames('btn', 'btn-sm', 'fst-italic', {'button-tags': (!tagsFilter.includes(tag))}, {'button-tags-active': (tagsFilter.includes(tag))})} 
               value={tag}
               onClick={(event) => handleTagClick(event.target.value)}              
               >{tag}

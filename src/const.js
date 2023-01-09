@@ -66,7 +66,7 @@ export const sortTypeSettings = {
 
 export const sortCategory = {
   rating: 'По рейтингу',
-  date: 'По дате публикации'
+  date: 'По дате'
 };
 
 export const COMMENTS_STEP = 3;
