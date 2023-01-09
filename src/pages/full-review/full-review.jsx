@@ -13,7 +13,7 @@ import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
 import { addLike, addRating, getFullReview } from '../../redux/features/fullReview/fullReviewSlice';
 
 import { getColorFullReview, scrollOnTop, getAllLikes } from '../../utils/utils';
-import { COMMENTS_STEP, ratingUserValues } from '../../const';
+import { COMMENTS_STEP, RATING_USER_VALUES } from '../../const';
 import classNames from 'classnames';
 
 import './full-review.scss';
@@ -100,7 +100,7 @@ const FullReview = () => {
               value={rating}
               onChange={handleRatingChange}
               >
-              {ratingUserValues.map((element, index) => (
+              {RATING_USER_VALUES.map((element, index) => (
               <option 
               className="bg-darkform-select" 
               key={index} 

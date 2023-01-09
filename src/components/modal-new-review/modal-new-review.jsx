@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Spinner from 'react-bootstrap/Spinner';
 
-import { formValidate, gradeValues, groupHobbies, sectionHobbiesValue } from '../../const';
+import { formValidate, GRADE_VALUES, groupHobbies, sectionHobbiesValue } from '../../const';
 
 const ModalNewReview = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const ModalNewReview = () => {
   const [nameOfPiece, setNameOfPiece] = useState('');
   const [nameOfPieceDirty, setNameOfPieceDirty] = useState(false);
   const [nameOfPieceError, setNameOfPieceError] = useState('Название произведения не может быть пустым');
-  const [grade, setGrade] = useState(gradeValues[0]);
+  const [grade, setGrade] = useState(GRADE_VALUES[0]);
   const [text, setText] = useState('');
   const [textDirty, setTextDirty] = useState(false);
   const [textError, setTextError] = useState('Содержание отзыва не может быть пустым');
@@ -194,7 +194,7 @@ const ModalNewReview = () => {
                     value={grade}
                     onChange={(event) => setGrade(event.target.value)}
                     >
-                      {gradeValues.map((element, index) => (
+                      {GRADE_VALUES.map((element, index) => (
                         <option key={index}>{element}</option>
                       ))}
                     </Form.Select>      

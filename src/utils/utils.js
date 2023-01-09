@@ -1,4 +1,5 @@
-import { gradeGradation, gradeClassNameFullReview, gradeClassNameCard } from "../const";
+import { gradeGradation, gradeClassNameFullReview, gradeClassNameCard, sortOrderSettings, sortTypeSettings } from "../const";
+import dayjs from "dayjs";
 
 export const getColorFullReview = (grade) => {
   if (grade <= gradeGradation.Bad) {
@@ -66,4 +67,53 @@ export const getFilterTagReviews = (tags, reviews) => {
 
   return filteredReviews;
 }
+
+export const getRatingReview = (ratings) => {
+    if(ratings.length === 0) {
+      return 0;
+    }
+  
+    const initialValue = 0;
+    const sumRating = ratings.reduce((sumRating, item) => sumRating + item.rating, initialValue);
+    const averageRating = Math.round(sumRating/ratings.length);
+
+    return averageRating;
+}
+
+
+export const getSortReviews = (reviews, sortParameter, order) => {
+  let dataEnd = [];
+  if (order !== sortOrderSettings.up && order !== sortOrderSettings.down) {
+    return reviews;
+  }
+
+  if (order === sortOrderSettings.down) {
+    switch (sortParameter) {
+      case sortTypeSettings.date:
+        dataEnd = reviews.slice().sort((a, b) => (dayjs(b.createDate) - dayjs(a.createDate)));
+        break;
+      case sortTypeSettings.rating:
+        dataEnd = reviews.slice().sort((a, b) => getRatingReview(b.ratings) - getRatingReview(a.ratings));
+        break;
+      default:
+        dataEnd = reviews;
+    }
+    return dataEnd;
+  }
+
+  if (order === sortOrderSettings.up) {
+    switch (sortParameter) {
+      case sortTypeSettings.date:
+        dataEnd = reviews.slice().sort((a, b) => (dayjs(a.createDate) - dayjs(b.createDate)));
+        break;
+      case sortTypeSettings.rating:
+        dataEnd = reviews.slice().sort((a, b) => getRatingReview(a.ratings) - getRatingReview(b.ratings));
+        break;
+      default:
+        dataEnd = reviews;
+    }
+    return dataEnd;
+  }
+}
+
 

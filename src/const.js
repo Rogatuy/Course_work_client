@@ -52,14 +52,35 @@ export const formValidate = {
   text: 'textReview'
 }
 
+export const sortOrderSettings = {
+  default: 'default',
+  up: 'up',
+  down: 'down'
+}
+
+export const sortTypeSettings = {
+  default: 'default',
+  rating: 'rating',
+  date: 'date',
+}
+
+export const sortCategory = {
+  rating: 'По рейтингу',
+  date: 'По дате публикации'
+};
+
 export const COMMENTS_STEP = 3;
 
-export const gradeValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export const GRADE_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-export const ratingUserValues = [1, 2, 3, 4, 5];
+export const RATING_USER_VALUES = [1, 2, 3, 4, 5];
 
 export const MAX_RATING_STARS = 5;
 
 export const REVIEWS_PER_PAGE = 3;
 
 export const FIRST_STEP_PAGINATION = 1;
+
+
+
+

@@ -6,8 +6,6 @@ const Pagination = ({reviews, getPagination, activeButton}) => {
   for (let i = 1; i <= Math.ceil(reviews.length / REVIEWS_PER_PAGE); i++) {
     pageNumbers.push(i);
   }
-
-  console.log(reviews);
   
   return (
     <div className="text-center text-md-end">

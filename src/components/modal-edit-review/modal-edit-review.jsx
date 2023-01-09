@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Spinner from 'react-bootstrap/Spinner';
 
-import { formValidate, gradeValues, groupHobbies } from '../../const';
+import { formValidate, GRADE_VALUES, groupHobbies } from '../../const';
 import './modal-edit-review.scss';
 
 const ModalEditReview = ({review}) => {
@@ -199,7 +199,7 @@ const ModalEditReview = ({review}) => {
                     value={grade}
                     onChange={(event) => setGrade(event.target.value)}
                     >
-                      {gradeValues.map((element, index) => (
+                      {GRADE_VALUES.map((element, index) => (
                         <option key={index}>{element}</option>
                       ))}
                     </Form.Select>      

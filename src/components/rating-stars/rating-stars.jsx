@@ -1,9 +1,8 @@
 import { MAX_RATING_STARS } from "../../const";
+import { getRatingReview } from "../../utils/utils";
 
 const RatingStars = ({allRating}) => {
-  const initialValue = 0;
-  const sumRating = allRating.reduce((sumRating, item) => sumRating + item.rating, initialValue);
-  const averageRating = Math.round(sumRating/allRating.length);
+  const averageRating = getRatingReview(allRating);
   const starsFill = [];
   const starsEmpty = [];
   for (let i = 0; i < averageRating; i++) {
