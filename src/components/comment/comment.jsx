@@ -9,7 +9,6 @@ const Comment = ({comment}) => {
 
   const idReview = useSelector((state) => state.fullReview.fullReview._id);
   const authorAuth = useSelector((state) => state.auth.name);
-  
   const currentDate = dayjs(comment.createDate).format('HH:mm MM-DD-YYYY');
 
   const handleDeleteComment = () => {

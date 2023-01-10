@@ -1,18 +1,19 @@
 import React, { useEffect, useState }  from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { getMyReviews } from '../../redux/features/myReviews/myReviewsSlice';
+import { checkIsAuth } from '../../redux/features/auth/authSlice';
+import { changePaginationMyAccount } from '../../redux/features/pagination/paginationSlice';
 
 import CardAccount from '../../components/card-account/card-account';
 import ModalNewReview from '../../components/modal-new-review/modal-new-review';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { checkIsAuth } from '../../redux/features/auth/authSlice';
-import { AppRoute, REVIEWS_PER_PAGE } from '../../const';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Pagination from '../../components/pagination/pagination';
-import { changePaginationMyAccount } from '../../redux/features/pagination/paginationSlice';
-import { scrollOnTop } from '../../utils/utils';
+
+import { toast } from 'react-toastify';
+import { AppRoute, REVIEWS_PER_PAGE } from '../../const';
+import { getReviewsPagination, scrollOnTop } from '../../utils/utils';
 
 const MyAccount = () => {
   const dispatch = useDispatch();
@@ -21,9 +22,9 @@ const MyAccount = () => {
   const myName = useSelector((state) => state.auth.name);
   const myReviews = useSelector(state => state.myReviews.myReviews);
   const currentPagination = useSelector(state => state.pagination.paginationMyAccount);
-  const [pagination, setPagination] = useState(currentPagination);
   const isDataLoading = useSelector(state => state.myReviews.isLoading);
   const isAuth = useSelector(checkIsAuth);
+  const [pagination, setPagination] = useState(currentPagination);
 
   useEffect(() => {
     document.title = "Личный кабинет";
@@ -44,11 +45,9 @@ const MyAccount = () => {
     dispatch(changePaginationMyAccount(pagination))
   }, [dispatch, pagination])
 
-  const lastReviewsIndex = currentPagination * REVIEWS_PER_PAGE;
-  const firstReviewIndex = lastReviewsIndex - REVIEWS_PER_PAGE;
-  const currentReviews = myReviews.slice(firstReviewIndex, lastReviewsIndex);
+  const currentReviews = getReviewsPagination(myReviews, currentPagination);
 
-  const getPagination = (element) => {
+  const changePagination = (element) => {
     setPagination(element);
     scrollOnTop();
   }
@@ -72,7 +71,7 @@ const MyAccount = () => {
           {myReviews.length > REVIEWS_PER_PAGE &&
             <Pagination
             reviews={myReviews}
-            getPagination={getPagination}
+            changePagination={changePagination}
             activeButton={currentPagination}
             />
           }

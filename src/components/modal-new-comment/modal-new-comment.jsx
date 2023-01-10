@@ -56,7 +56,6 @@ const ModalNewComment = () => {
       }
   }, [textCommentError]);
 
-
   const handleAddComment = () => {
     const text = textComment;
     dispatch(addComment({name, textComment: text, _id: idReview}))

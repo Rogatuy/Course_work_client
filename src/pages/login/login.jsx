@@ -16,10 +16,9 @@ const Login = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {status} = useSelector((state) => state.auth)
   const isAuth = useSelector(checkIsAuth);
-
-  const [tabKey, setTabKey] = useState('login');
+  const [authKey, setAuthKey] = useState('login');
+  const {status} = useSelector((state) => state.auth)
 
   useEffect(() => {
     if(status) toast(status);
@@ -48,7 +47,7 @@ const Login = () => {
   }
 
   const handleChangeTab = (k) => {
-    setTabKey(k);
+    setAuthKey(k);
     setName('');
     setEmail('');
     setPassword('');
@@ -60,7 +59,7 @@ const Login = () => {
           <div className="col-lg-5 col-md-6 col-xs-12">
             <Tabs 
             id="tabs-controlled"
-            activeKey={tabKey}
+            activeKey={authKey}
             onSelect={(k) => handleChangeTab(k)}
             className="nav nav-tabs my-4 "
             justify

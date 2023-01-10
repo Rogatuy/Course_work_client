@@ -163,6 +163,4 @@ const FullReview = () => {
   )
 }
 
-
-
 export default FullReview;

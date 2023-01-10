@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Card from '../../components/card/card';
 import Pagination from '../../components/pagination/pagination';
 import { REVIEWS_PER_PAGE } from '../../const';
-import { isInputEmpty, scrollOnTop } from '../../utils/utils';
+import { getReviewsPagination, isInputEmpty, scrollOnTop } from '../../utils/utils';
 import { changePaginationSearch } from '../../redux/features/pagination/paginationSlice';
 import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -39,9 +39,7 @@ const SearchPage = () => {
   });
 
   const currentSearchReviews = filteredReview;
-  const lastReviewsIndex = currentPagination * REVIEWS_PER_PAGE;
-  const firstReviewIndex = lastReviewsIndex - REVIEWS_PER_PAGE;
-  const currentReviews = currentSearchReviews.slice(firstReviewIndex, lastReviewsIndex);
+  const currentReviews = getReviewsPagination(currentSearchReviews, currentPagination);
 
   useEffect(() => {
     dispatch(getAllReviews())
@@ -52,7 +50,7 @@ const SearchPage = () => {
     dispatch(changePaginationSearch(pagination))
   }, [dispatch, pagination])
 
-  const getPagination = (element) => {
+  const changePagination = (element) => {
     setPagination(element);
     scrollOnTop();
   }
@@ -101,7 +99,7 @@ const SearchPage = () => {
             {currentSearchReviews.length > REVIEWS_PER_PAGE &&
             <Pagination
             reviews={currentSearchReviews}
-            getPagination={getPagination}
+            changePagination={changePagination}
             activeButton={currentPagination}
             />
           }
