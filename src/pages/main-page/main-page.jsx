@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
 
 import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlice';
 import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
@@ -12,8 +11,10 @@ import Card from '../../components/card/card';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Pagination from '../../components/pagination/pagination';
 import Sort from '../../components/sort/sort';
-import { getFilterTagReviews, getSortReviews, getTagsSet, scrollOnTop } from '../../utils/utils';
+
+import { getFilterTagReviews, getReviewsPagination, getSortReviews, getTagsSet, scrollOnTop } from '../../utils/utils';
 import { sectionHobbiesValue, AppRoute, REVIEWS_PER_PAGE, FIRST_STEP_PAGINATION, titles} from '../../const';
+import classNames from 'classnames';
 
 const MainPage = () => {
   const currentHobbie = useSelector(state => state.activeHobbie.selectedHobbie);
@@ -55,23 +56,19 @@ const MainPage = () => {
     }    
   }
 
-  let data;
+  let reviewsHobbie;
   if (currentHobbie !== sectionHobbiesValue.All) {
-    data = allReviews.filter((element) => element.group === currentHobbie)
+    reviewsHobbie = allReviews.filter((element) => element.group === currentHobbie)
   } else {
-    data = allReviews;
+    reviewsHobbie = allReviews;
   }
 
-  const allTegs = getTagsSet(data);
+  const reviewsfilterWithTag = getFilterTagReviews(tagsFilter, reviewsHobbie);
+  const sortReviews = getSortReviews(reviewsfilterWithTag, sortParameter, sortOrder);
+  const currentReviews = getReviewsPagination(sortReviews, currentPagination);
+  const allTegs = getTagsSet(reviewsHobbie);
 
-  const filterWithTagReviews = getFilterTagReviews(tagsFilter, data);
-  const sortReviews = getSortReviews(filterWithTagReviews, sortParameter, sortOrder);
-  
-  const lastReviewsIndex = currentPagination * REVIEWS_PER_PAGE;
-  const firstReviewIndex = lastReviewsIndex - REVIEWS_PER_PAGE;
-  const currentReviews = sortReviews.slice(firstReviewIndex, lastReviewsIndex);
-
-  const getPagination = (element) => {
+  const changePagination = (element) => {
     setPagination(element);
     scrollOnTop();
   }
@@ -80,47 +77,9 @@ const MainPage = () => {
     return <LoadingScreen />;
   }
 
-  if (filterWithTagReviews.length === 0) {
-    return (
-    <div className='container'>
-      {tagsFilter.length !== 0 &&
-        <div className="container d-flex flex-row px-0 flex-wrap mt-3 justify-content-start">
-          {allTegs.map((tag, index) => (
-            <div 
-            className="my-1 mx-2 text-start text-secondary"
-              key={index}
-            >
-              <button
-                href="#"
-                className={classNames('btn', 'btn-sm', 'fst-italic', {'fw-bold': (tagsFilter.includes(tag))})} 
-                value={tag}
-                onClick={(event) => handleTagClick(event.target.value)}              
-                >{tag}
-              </button>
-            </div>
-          ))}
-        </div>
-      }
-      <div className="d-flex flex-column justify-content-center">
-        <h4 className="col-9 text-center text-dark mx-auto mt-5">{tagsFilter.length === 0 ? `Пока что в этом разделе нет отзывов` : `Нет отзыва с таким сочетанием тегов`}</h4>
-        <Link 
-        type="button" 
-        className="btn btn-secondary col my-3 mx-auto text-center"
-        to={AppRoute.Main}
-        onClick={() => {
-          dispatch(changeHobbie(sectionHobbiesValue.All));
-          dispatch(changeTags([]));
-        }}
-        >
-          {tagsFilter.length === 0 ? `На главную` : `Очистить выбор тегов`}
-        </Link>
-      </div>
-    </div>
-    )
-  }
-
   return (
       <div className='container'>
+        {allTegs.length !== 0 &&
         <div className="container d-flex flex-row px-0 flex-wrap mt-3 justify-content-start">
           {allTegs.map((tag, index) => (
             <div 
@@ -136,24 +95,43 @@ const MainPage = () => {
             </div>
           ))}
         </div>
-        <Sort/>
-        <div className='row d-flex flex-wrap flex-md-column justify-content-center gap-4'>
-          <div className='col'>
-          {currentReviews.map((review) => (
-            <Card
-            key={review._id}
-            review={review}
-            />
-          ))}
+        }
+        {(reviewsfilterWithTag.length === 0)
+        ? <div className="d-flex flex-column justify-content-center">
+            <h4 className="col-9 text-center text-dark mx-auto mt-5">{tagsFilter.length === 0 ? `Пока что в этом разделе нет отзывов` : `Нет отзыва с таким сочетанием тегов`}</h4>
+            <Link 
+            type="button" 
+            className="btn btn-secondary col my-3 mx-auto text-center"
+            to={AppRoute.Main}
+            onClick={() => {
+              dispatch(changeHobbie(sectionHobbiesValue.All));
+              dispatch(changeTags([]));
+            }}
+            >
+              {tagsFilter.length === 0 ? `На главную` : `Очистить выбор тегов`}
+            </Link>
           </div>
-            {sortReviews.length > REVIEWS_PER_PAGE &&
-            <Pagination
-            reviews={sortReviews}
-            getPagination={getPagination}
-            activeButton={currentPagination}
-            />
-          }
-        </div>
+        : <>
+            <Sort/>
+            <div className='row d-flex flex-wrap flex-md-column justify-content-center gap-4'>
+              <div className='col'>
+              {currentReviews.map((review) => (
+                <Card
+                key={review._id}
+                review={review}
+                />
+              ))}
+              </div>
+                {sortReviews.length > REVIEWS_PER_PAGE &&
+                <Pagination
+                reviews={sortReviews}
+                changePagination={changePagination}
+                activeButton={currentPagination}
+                />
+              }
+            </div>
+          </>
+        }
       </div>
    );
 }

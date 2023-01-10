@@ -1,7 +1,7 @@
 import React from 'react';
 import { REVIEWS_PER_PAGE } from '../../const';
 
-const Pagination = ({reviews, getPagination, activeButton}) => {
+const Pagination = ({reviews, changePagination, activeButton}) => {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(reviews.length / REVIEWS_PER_PAGE); i++) {
     pageNumbers.push(i);
@@ -14,7 +14,7 @@ const Pagination = ({reviews, getPagination, activeButton}) => {
           key={element}
           className={`btn btn-sm ${activeButton === element ? `btn-secondary` : `btn-outline-secondary`} mx-1 mb-4`}
           value={element}
-          onClick={() => getPagination(element)}
+          onClick={() => changePagination(element)}
           >
           {element}
           </button>

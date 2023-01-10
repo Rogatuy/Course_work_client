@@ -1,4 +1,4 @@
-import { gradeGradation, gradeClassNameFullReview, gradeClassNameCard, sortOrderSettings, sortTypeSettings } from "../const";
+import { gradeGradation, gradeClassNameFullReview, gradeClassNameCard, sortOrderSettings, sortTypeSettings, REVIEWS_PER_PAGE } from "../const";
 import dayjs from "dayjs";
 
 export const getColorFullReview = (grade) => {
@@ -121,5 +121,11 @@ export const isInputEmpty = (str) => {
     return true;
     
   return false;
+}
+
+export const getReviewsPagination = (reviews, pagination) => {
+  const lastReviewsIndex = pagination * REVIEWS_PER_PAGE;
+  const firstReviewIndex = lastReviewsIndex - REVIEWS_PER_PAGE;
+  return reviews.slice(firstReviewIndex, lastReviewsIndex);
 }
 
