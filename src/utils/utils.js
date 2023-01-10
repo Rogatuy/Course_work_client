@@ -116,4 +116,10 @@ export const getSortReviews = (reviews, sortParameter, order) => {
   }
 }
 
+export const isInputEmpty = (str) => {
+  if (str.trim() == '') 
+    return true;
+    
+  return false;
+}
 

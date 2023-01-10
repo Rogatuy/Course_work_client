@@ -13,6 +13,7 @@ import NoFoundScreen from './pages/no-found-screen/no-found-screen';
 import Header from './components/header/header';
 import FullReview from './pages/full-review/full-review';
 import Footer from './components/footer/footer';
+import SearchPage from './pages/search-page/search-page';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
       <div className="app_wrapper" style={{backgroundColor: 'rgb(248, 249, 250)'}}>
         <Routes>        
           <Route path={AppRoute.Main} element={<MainPage />} />
+          <Route path={AppRoute.Search} element={<SearchPage />} />
           <Route path={AppRoute.Films}>
             <Route path=':id' element={<FullReview />} />
           </Route>

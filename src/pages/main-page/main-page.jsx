@@ -15,9 +15,6 @@ import Sort from '../../components/sort/sort';
 import { getFilterTagReviews, getSortReviews, getTagsSet, scrollOnTop } from '../../utils/utils';
 import { sectionHobbiesValue, AppRoute, REVIEWS_PER_PAGE, FIRST_STEP_PAGINATION} from '../../const';
 
-import './main.scss';
-
-
 const MainPage = () => {
   const currentHobbie = useSelector(state => state.activeHobbie.selectedHobbie);
   const allReviews = useSelector(state => state.allReviews.allReviews);
@@ -32,6 +29,10 @@ const MainPage = () => {
   useEffect(() => {
     dispatch(getAllReviews());
   }, [dispatch])
+
+  useEffect(() => {
+    document.title = `What to do?`;
+  },[]);
 
   useEffect(() => {
     dispatch(changeHobbie(currentHobbie));
@@ -91,7 +92,7 @@ const MainPage = () => {
             >
               <button
                 href="#"
-                className={classNames('btn', 'btn-sm', 'fst-italic', {'button-tags': (!tagsFilter.includes(tag))}, {'button-tags-active': (tagsFilter.includes(tag))})} 
+                className={classNames('btn', 'btn-sm', 'fst-italic', {'fw-bold': (tagsFilter.includes(tag))})} 
                 value={tag}
                 onClick={(event) => handleTagClick(event.target.value)}              
                 >{tag}
@@ -104,14 +105,14 @@ const MainPage = () => {
         <h4 className="col-9 text-center text-dark mx-auto mt-5">{tagsFilter.length === 0 ? `Пока что в этом разделе нет отзывов` : `Нет отзыва с таким сочетанием тегов`}</h4>
         <Link 
         type="button" 
-        className="btn btn-secondary col mt-3 mx-auto text-center"
+        className="btn btn-secondary col my-3 mx-auto text-center"
         to={AppRoute.Main}
         onClick={() => {
           dispatch(changeHobbie(sectionHobbiesValue.All));
           dispatch(changeTags([]));
         }}
         >
-          На главную
+          {tagsFilter.length === 0 ? `На главную` : `Очистить выбор тегов`}
         </Link>
       </div>
     </div>
@@ -123,11 +124,11 @@ const MainPage = () => {
         <div className="container d-flex flex-row px-0 flex-wrap mt-3 justify-content-start">
           {allTegs.map((tag, index) => (
             <div 
-              className="my-1 me-2 text-start"
+            className="my-1 mx-2 text-start text-secondary"
               key={index}
             >
               <button
-              className={classNames('btn', 'btn-sm', 'fst-italic', {'button-tags': (!tagsFilter.includes(tag))}, {'button-tags-active': (tagsFilter.includes(tag))})} 
+              className={classNames('btn', 'btn-sm', 'fst-italic', {'fw-bold': (tagsFilter.includes(tag))})} 
               value={tag}
               onClick={(event) => handleTagClick(event.target.value)}              
               >{tag}

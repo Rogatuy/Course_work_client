@@ -42,6 +42,10 @@ const FullReview = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
+    document.title = `${review.title}`;
+  }, [review.title]);
+
+  useEffect(() => {
      setLikesAuthor(getAllLikes(allReviews, review.name));
   }, [allReviews, review.name]);
 

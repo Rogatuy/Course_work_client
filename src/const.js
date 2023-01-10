@@ -5,6 +5,7 @@ export const AppRoute = {
   Films: '/films',
   Login: '/login',
   MyAccount: `/me`,
+  Search: '/search',
   NoFoundScreen: `/*`,
 }
 

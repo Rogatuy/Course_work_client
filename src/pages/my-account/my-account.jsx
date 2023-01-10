@@ -25,7 +25,9 @@ const MyAccount = () => {
   const isDataLoading = useSelector(state => state.myReviews.isLoading);
   const isAuth = useSelector(checkIsAuth);
 
-  console.log(currentPagination);
+  useEffect(() => {
+    document.title = "Личный кабинет";
+  },[]);  
 
   useEffect(() => {
     if(!isAuth) {

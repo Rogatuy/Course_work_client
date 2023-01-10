@@ -27,6 +27,10 @@ const Login = () => {
     if(isAuth) {navigate(`${AppRoute.Main}`) };
   }, [dispatch, isAuth, navigate, status]);
 
+  useEffect(() => {
+    document.title = "Авторизация";
+  },[]);
+
   const handleSubmitLogin = () => {
     try {      
       dispatch(loginUser({email, password}));
