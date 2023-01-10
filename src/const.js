@@ -70,6 +70,13 @@ export const sortCategory = {
   date: 'По дате'
 };
 
+export const titles = {
+  [`all-reviews`]: 'Отзывы',
+  books: 'Книги',
+  games: 'Игры',
+  films: 'Фильмы'
+}
+
 export const COMMENTS_STEP = 3;
 
 export const GRADE_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

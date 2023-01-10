@@ -63,8 +63,8 @@ const SearchPage = () => {
 
   return (
     <div className='container'>
-      <div className="d-flex col-12 col-md-6 col-xl-4 justify-content-center">
-        <div className="input-group mt-3 ">
+      <div className="col col-sm-8 col-lg-6 col-xl-4 mx-auto">
+        <div className="input-group mt-5 mb-3 col-6">
           <input 
           type="text" 
           className="form-control" 
@@ -87,8 +87,8 @@ const SearchPage = () => {
         <div className='row d-flex flex-wrap flex-md-column justify-content-center gap-4'>
           <div className='col'>
           {(currentReviews.length === 0 && !isInputEmpty(searchInput))  &&
-            <div className="container mx-auto mt-5 d-flex flex-column justify-content-start">
-              <h4 className="col-9 text-start text-dark">Нет совпадений</h4>
+            <div className="container">
+              <h4 className="col-9 text-dark text-center mx-auto">Нет совпадений</h4>
             </div>
           }
           {currentReviews.map((review) => (

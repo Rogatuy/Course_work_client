@@ -13,7 +13,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import Pagination from '../../components/pagination/pagination';
 import Sort from '../../components/sort/sort';
 import { getFilterTagReviews, getSortReviews, getTagsSet, scrollOnTop } from '../../utils/utils';
-import { sectionHobbiesValue, AppRoute, REVIEWS_PER_PAGE, FIRST_STEP_PAGINATION} from '../../const';
+import { sectionHobbiesValue, AppRoute, REVIEWS_PER_PAGE, FIRST_STEP_PAGINATION, titles} from '../../const';
 
 const MainPage = () => {
   const currentHobbie = useSelector(state => state.activeHobbie.selectedHobbie);
@@ -31,8 +31,8 @@ const MainPage = () => {
   }, [dispatch])
 
   useEffect(() => {
-    document.title = `What to do?`;
-  },[]);
+    document.title = `${titles[currentHobbie]}`;
+  },[currentHobbie]);
 
   useEffect(() => {
     dispatch(changeHobbie(currentHobbie));
