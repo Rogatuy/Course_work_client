@@ -2,10 +2,6 @@ import React, { useEffect, useState }  from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { getMyReviews } from '../../redux/features/myReviews/myReviewsSlice';
-import { checkIsAuth } from '../../redux/features/auth/authSlice';
-import { changePaginationMyAccount } from '../../redux/features/pagination/paginationSlice';
-
 import CardAccount from '../../components/card-account/card-account';
 import ModalNewReview from '../../components/modal-new-review/modal-new-review';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -14,6 +10,7 @@ import Pagination from '../../components/pagination/pagination';
 import { toast } from 'react-toastify';
 import { AppRoute, REVIEWS_PER_PAGE } from '../../const';
 import { getReviewsPagination, scrollOnTop } from '../../utils/utils';
+import { changePaginationMyAccount, checkIsAuth, getMyReviews } from '../../redux/features/features';
 
 const MyAccount = () => {
   const dispatch = useDispatch();

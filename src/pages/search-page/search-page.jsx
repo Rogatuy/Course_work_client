@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { changePaginationSearch, getAllReviews } from '../../redux/features/features';
 import Card from '../../components/card/card';
 import Pagination from '../../components/pagination/pagination';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { CrossIcon } from '../../components/icons/icons';
 import { REVIEWS_PER_PAGE } from '../../const';
 import { getReviewsPagination, isInputEmpty, scrollOnTop } from '../../utils/utils';
-import { changePaginationSearch } from '../../redux/features/pagination/paginationSlice';
-import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
-import LoadingScreen from '../loading-screen/loading-screen';
 
 const SearchPage = () => {
   const dispatch = useDispatch();
@@ -43,8 +43,11 @@ const SearchPage = () => {
 
   useEffect(() => {
     dispatch(getAllReviews())
+   }, [dispatch])
+
+  useEffect(() => {
     document.title = "Поиск";
-  }, [])
+  }, [] )
 
   useEffect(() => {
     dispatch(changePaginationSearch(pagination))
@@ -75,9 +78,7 @@ const SearchPage = () => {
           onClick={() => setSearchInput('')}
           title="Очистить"
           alt="Clean input">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
-              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"></path>
-            </svg>
+            <CrossIcon/>
           </button>
         </div>
       </div>

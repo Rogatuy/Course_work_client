@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlice';
-import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
-import { changeTags } from '../../redux/features/tagsFilter/tagsFilterSlice';
-import { changePaginationMain } from '../../redux/features/pagination/paginationSlice';
+import { changeHobbie, changePaginationMain, changeTags, getAllReviews } from '../../redux/features/features';
 
 import Card from '../../components/card/card';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -14,6 +10,7 @@ import Sort from '../../components/sort/sort';
 
 import { getFilterTagReviews, getReviewsPagination, getSortReviews, getTagsSet, scrollOnTop } from '../../utils/utils';
 import { sectionHobbiesValue, AppRoute, REVIEWS_PER_PAGE, FIRST_STEP_PAGINATION, titles} from '../../const';
+
 import classNames from 'classnames';
 
 const MainPage = () => {

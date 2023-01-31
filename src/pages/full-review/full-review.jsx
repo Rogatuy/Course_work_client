@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
+import { addLike, addRating, getAllReviews, getFullReview } from '../../redux/features/features';
 
 import LoadingScreen from '../loading-screen/loading-screen';
 import Comment from '../../components/comment/comment';
 import RatingStars from '../../components/rating-stars/rating-stars';
 import ModalNewComment from '../../components/modal-new-comment/modal-new-comment';
-
-import { getAllReviews } from '../../redux/features/allReviews/allReviewsSlice';
-import { addLike, addRating, getFullReview } from '../../redux/features/fullReview/fullReviewSlice';
-
+import FormRatingLikes from '../../components/form-rating-likes/form-rating-likes';
+import { ArrowUpIcon, LikeFillGreyIcon } from '../../components/icons/icons';
 import { getColorFullReview, scrollOnTop, getAllLikes } from '../../utils/utils';
 import { COMMENTS_STEP} from '../../const';
 
 import './full-review.scss';
-import FormRatingLikes from '../../components/form-rating-likes/form-rating-likes';
 
 const FullReview = () => {
   const {id} = useParams();
@@ -117,9 +115,7 @@ const FullReview = () => {
                 <p className="p-2 m-0">Автор: {review.name}</p>
                 {likesAuthor > 0 &&
                 <p className="p-2 my-0">
-                  {likesAuthor} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" className="bi bi-heart-fill" viewBox="0 0 16 16">
-                      <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
-                  </svg>
+                  {likesAuthor} <LikeFillGreyIcon/>
                 </p>
                 }
               </div>
@@ -151,9 +147,7 @@ const FullReview = () => {
             }
             {review.comments.length > COMMENTS_STEP &&
             <button className="btn btn-secondary col-2 col-sm-1 m-0 p-0" onClick={scrollOnTop} alt="Наверх" title="К верху страницы">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up" viewBox="0 0 16 16">
-                <path fillRule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"></path>
-              </svg>
+              <ArrowUpIcon/>
             </button>
             }
           </div>

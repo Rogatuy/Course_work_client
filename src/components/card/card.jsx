@@ -1,8 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlice';
+import { changeHobbie } from '../../redux/features/features';
+
 import { getAllLikes, getColorCard } from '../../utils/utils';
+import { LikeFillGreyIcon } from '../icons/icons';
 import RatingStars from '../rating-stars/rating-stars';
 
 import './card.scss';
@@ -36,9 +38,7 @@ const Card = ({review}) => {
               <p className="p-2 px-md-0 m-0">Автор: {review.name}</p>
               {likes > 0 &&
               <p className="p-2 m-0 col-3 col-md-2 col-lg-1">
-                {likes} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#6c757d" className="bi bi-heart-fill" viewBox="0 0 16 16">
-                  <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"></path>
-                </svg>
+                {likes} <LikeFillGreyIcon/>
               </p>
               }
               <p className="p-2 m-0">{review.grade}/10</p>

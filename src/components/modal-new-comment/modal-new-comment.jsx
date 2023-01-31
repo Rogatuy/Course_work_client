@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFullReview, addComment } from '../../redux/features/fullReview/fullReviewSlice';
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
+import { addComment, getFullReview } from '../../redux/features/features';
 
 const ModalNewComment = () => {
   const dispatch = useDispatch();

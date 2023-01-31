@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { sectionHobbiesValue, AppRoute } from '../../const';
-import { changeHobbie } from '../../redux/features/activeHobbie/activeHobbieSlice';
+import { changeHobbie } from '../../redux/features/features';
 
 import './no-found-screen.scss';
 
